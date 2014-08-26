@@ -1,0 +1,48 @@
+---
+name: Atlassian Stash
+description: This template sets up a MySQL server and Stash
+keywords: atlassian,stash,mysql
+type: Default
+documentation: |
+  The application is configured and ready-to-go.
+
+  The connection information for Stash is:
+
+  Driver: MySQL
+  Host: mysql
+  Database Name: stash (configurable in MySQL's environmental variables)
+  Username: stash (configurable in MySQL's environmental variables)
+  Password: password (configurable in MySQL's environmental variables)
+images:
+- name: wleroux_atlassian-stash_3.2.4
+  source: wleroux/atlassian-stash:3.2.4
+  category: UI
+  type: Default
+  ports:
+  - host_port: '7990'
+    container_port: '7990'
+    proto: TCP
+  links:
+  - service: wleroux_mysql
+    alias: mysql
+  volumes:
+  - host_path: "/var/stash-home"
+    container_path: "/var/stash-home"
+  - host_path: "/var/ssh"
+    container_path: "/root/.ssh"
+- name: wleroux_mysql
+  source: wleroux/mysql:latest
+  category: Database
+  type: Default
+  environment:
+  - variable: MYSQL_USER
+    value: stash
+  - variable: MYSQL_PASSWORD
+    value: password
+  - variable: MYSQL_DATABASE
+    value: stash
+  volumes:
+  - host_path: "/var/ssh"
+    container_path: "/root/.ssh"
+  - host_path: "/var/stash-mysql"
+    container_path: "/var/lib/mysql"
