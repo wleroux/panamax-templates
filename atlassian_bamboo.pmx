@@ -1,0 +1,32 @@
+---
+name: Atlassian Bamboo
+description: Template for setting up Atlassian Bamboo 5.6.1
+keywords: atlassian,bamboo,mysql
+type: Default
+documentation: ''
+images:
+- name: wleroux_atlassian-bamboo_latest
+  source: wleroux/atlassian-bamboo:latest
+  category: UI
+  type: Default
+  ports:
+  - host_port: '8085'
+    container_port: '8085'
+    proto: TCP
+  links:
+  - service: wleroux_mysql_1
+    alias: mysql
+- name: wleroux_mysql_1
+  source: wleroux/mysql:latest
+  category: Database
+  type: Default
+  environment:
+  - variable: MYSQL_USER
+    value: bamboo
+  - variable: MYSQL_PASSWORD
+    value: password
+  - variable: MYSQL_DATABASE
+    value: bamboo
+  volumes:
+  - host_path: "/var/bamboo-mysql"
+    container_path: "/var/lib/mysql"
