@@ -1,0 +1,35 @@
+---
+name: Atlassian Crowd
+description: Atlassian Crowd 2.7.2
+keywords: atlassian,crowd,mysql
+type: Default
+documentation: ''
+images:
+- name: wleroux_atlassian-crowd_latest
+  source: wleroux/atlassian-crowd:latest
+  category: UI
+  type: Default
+  ports:
+  - host_port: '8095'
+    container_port: '8095'
+    proto: TCP
+  links:
+  - service: wleroux_mysql_2
+    alias: mysql
+  volumes:
+  - host_path: "/var/crowd-home"
+    container_path: "/var/crowd-home"
+- name: wleroux_mysql_2
+  source: wleroux/mysql:latest
+  category: Database
+  type: Default
+  environment:
+  - variable: MYSQL_USER
+    value: crowd
+  - variable: MYSQL_PASSWORD
+    value: password
+  - variable: MYSQL_DATABASE
+    value: crowd
+  volumes:
+  - host_path: "/var/crowd-mysql"
+    container_path: "/var/lib/mysql"
