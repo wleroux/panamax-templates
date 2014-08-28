@@ -1,6 +1,6 @@
 ---
 name: Atlassian Bamboo
-description: Template for setting up Atlassian Bamboo 5.6.1
+description: ''
 keywords: atlassian,bamboo,mysql
 type: Default
 documentation: ''
@@ -16,6 +16,9 @@ images:
   links:
   - service: wleroux_mysql_1
     alias: mysql
+  volumes:
+  - host_path: "/var/bamboo-home"
+    container_path: "/var/bamboo-home"
 - name: wleroux_mysql_1
   source: wleroux/mysql:latest
   category: Database
