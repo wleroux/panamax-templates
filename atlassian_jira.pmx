@@ -1,0 +1,35 @@
+---
+name: Atlassian JIRA
+description: A template for Atlassian JIRA
+keywords: atlassian,jira,mysql
+type: Default
+documentation: ''
+images:
+- name: wleroux_atlassian-jira_latest
+  source: wleroux/atlassian-jira:latest
+  category: Application
+  type: Default
+  ports:
+  - host_port: '8080'
+    container_port: '8080'
+    proto: TCP
+  links:
+  - service: wleroux_mysql_3
+    alias: mysql
+  volumes:
+  - host_path: "/var/jira-home"
+    container_path: "/var/jira-home"
+- name: wleroux_mysql_3
+  source: wleroux/mysql:latest
+  category: Database
+  type: Default
+  environment:
+  - variable: MYSQL_USER
+    value: jira
+  - variable: MYSQL_PASSWORD
+    value: password
+  - variable: MYSQL_DATABASE
+    value: jira
+  volumes:
+  - host_path: "/var/jira-mysql"
+    container_path: "/var/lib/mysql"
